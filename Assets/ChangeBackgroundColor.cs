@@ -24,10 +24,10 @@ public class ChangeBackgroundColor : MonoBehaviour
     void Update()
     {
         camera.backgroundColor = new Color32(color1, color2, color3, 255);
-        updateColors();
+        UpdateColors();
     }
 
-    void updateColors()
+    void UpdateColors()
     {
         switch (colorTurn)
         {

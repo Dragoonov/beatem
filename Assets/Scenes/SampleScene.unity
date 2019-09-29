@@ -1581,6 +1581,8 @@ MonoBehaviour:
   cameraBackgroundColorSpeed: 0
   speedUpCameraColorSpeed: 0
   slowDownCameraColorSpeed: 0
+  hitTimerSeconds: 0
+  hitTimerRunning: 0
 --- !u!4 &1000889407
 Transform:
   m_ObjectHideFlags: 0
@@ -1792,6 +1794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorToTurnTo: {r: 0, g: 0, b: 0, a: 0}
+  changeColorSpeed: 0
 --- !u!1001 &1130736383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2682,7 +2685,7 @@ GameObject:
   - component: {fileID: 1662406774}
   m_Layer: 0
   m_Name: Transparentjpg
-  m_TagString: Untagged
+  m_TagString: PlayerTransparent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

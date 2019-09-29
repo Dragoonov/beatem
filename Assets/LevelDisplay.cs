@@ -10,7 +10,7 @@ public class LevelDisplay : MonoBehaviour
     public Color defaultPlayerColor;
     public Color defaultCenterColor;
 
-    public const float defaultHitTimerSeconds = 0.5f;
+    public const float defaultHitTimerSeconds = 0.3f;
     public float hitTimerSeconds;
     public bool hitTimerRunning;
 
@@ -18,7 +18,14 @@ public class LevelDisplay : MonoBehaviour
     public Color hitEnemiesColor;
     public Color hitPlayerColor;
     public Color hitCenterColor;
+
+
     void Start()
+    {
+        InitializeLevel();
+    }
+
+    private void InitializeLevel()
     {
         defaultState = true;
         defaultEnemiesColor = Color.black;
@@ -36,6 +43,7 @@ public class LevelDisplay : MonoBehaviour
     void Update()
     {
         ResolveHitDisplay();
+        changeEnemiesBackgroundColor();
     }
 
     private void ResolveHitDisplay()
@@ -56,6 +64,18 @@ public class LevelDisplay : MonoBehaviour
                 hitTimerRunning = false;
                 defaultState = true;
                 hitTimerSeconds = defaultHitTimerSeconds;
+            }
+        }
+    }
+
+    private void changeEnemiesBackgroundColor()
+    {
+        if(defaultState)
+        {
+            GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject gameObject in gameObjects)
+            {
+                gameObject.GetComponent<ChangeColor>().UpdateColors();
             }
         }
     }

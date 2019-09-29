@@ -20,6 +20,7 @@ public class onCollision : MonoBehaviour
         if(other.gameObject.tag == "Enemy")
         {
             GameObject.FindGameObjectWithTag("Level").GetComponent<LevelDisplay>().FireHitDisplay();
+            GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>().FireHitSpeed();
         }
         else if(other.gameObject.tag == "Finish")
         {

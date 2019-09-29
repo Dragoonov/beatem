@@ -8,6 +8,7 @@ TagManager:
   - Gate
   - CenterDot
   - Level
+  - PlayerTransparent
   layers:
   - Default
   - TransparentFX

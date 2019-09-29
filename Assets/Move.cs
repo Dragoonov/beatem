@@ -24,4 +24,9 @@ public class Move : MonoBehaviour
         }
 
     }
+
+    public void Enable(bool enable)
+    {
+        enabled = enable;
+    }
 }
