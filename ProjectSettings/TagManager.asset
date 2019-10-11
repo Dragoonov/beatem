@@ -9,6 +9,9 @@ TagManager:
   - CenterDot
   - Level
   - PlayerTransparent
+  - Tempo
+  - Time
+  - Background
   layers:
   - Default
   - TransparentFX

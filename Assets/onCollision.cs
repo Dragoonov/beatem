@@ -21,10 +21,13 @@ public class onCollision : MonoBehaviour
         {
             GameObject.FindGameObjectWithTag("Level").GetComponent<LevelDisplay>().FireHitDisplay();
             GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>().FireHitSpeed();
+            GameObject.FindGameObjectWithTag("Level").GetComponent<UserInterface>().score += 1f;
         }
         else if(other.gameObject.tag == "Finish")
         {
-            //gameObject.SetActive(false);
+            GameObject.FindGameObjectWithTag("Level").GetComponent<LevelDisplay>().Finish();
+            GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>().Finish();
+            GameObject.FindGameObjectWithTag("Level").GetComponent<UserInterface>().Finish();
         }
     }
 

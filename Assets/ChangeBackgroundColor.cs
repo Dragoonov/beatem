@@ -11,6 +11,9 @@ public class ChangeBackgroundColor : MonoBehaviour
     int colorTurn = 1;
     bool ascending = true;
     public byte changeColorSpeed;
+    public float rotateSpeed = 0.5f;
+    public float switchRotationDeltaSeconds = 5;
+    private float time;
 
     void Start()
     {
@@ -25,6 +28,8 @@ public class ChangeBackgroundColor : MonoBehaviour
     {
         camera.backgroundColor = new Color32(color1, color2, color3, 255);
         UpdateColors();
+        ChangeCameraRotation();
+        time += Time.deltaTime;
     }
 
     void UpdateColors()
@@ -85,5 +90,16 @@ public class ChangeBackgroundColor : MonoBehaviour
     public void Enable(bool enable)
     {
         enabled = enable;
+    }
+
+    private void ChangeCameraRotation()
+    {
+        if(time>switchRotationDeltaSeconds)
+        {
+            time = 0;
+            switchRotationDeltaSeconds = Random.Range(5, 15);
+            rotateSpeed = -rotateSpeed;
+        }
+        transform.Rotate(0, 0, rotateSpeed);
     }
 }

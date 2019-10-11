@@ -30,6 +30,9 @@ public class Shrink : MonoBehaviour
 
     public void SlowDown(float value)
     {
+        if(scaleSpeed - value > 0)
+        {
         scaleSpeed -= value;
+        }
     }
 }
