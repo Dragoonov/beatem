@@ -13,7 +13,7 @@ public class LevelDisplay : MonoBehaviour
     public Color defaultPlayerColor;
     public Color defaultCenterColor;
 
-    public const float defaultHitTimerSeconds = 0.3f;
+    public const float defaultHitTimerSeconds = 0.4f;
     public float hitTimerSeconds;
     public bool hitTimerRunning;
 
@@ -25,6 +25,7 @@ public class LevelDisplay : MonoBehaviour
     public float rotateSpeed;
     public float switchRotationDeltaSeconds;
     private float time;
+    private int rotateDirection;
 
     byte color1, color2, color3;
     bool ascending;
@@ -33,6 +34,9 @@ public class LevelDisplay : MonoBehaviour
     GameObject[] backgrounds;
 
     public bool finished;
+
+    public float fieldOfView;
+    private int fieldOfViewDirection;
 
     void Start()
     {
@@ -60,6 +64,9 @@ public class LevelDisplay : MonoBehaviour
         color1 = color3 = color2 = 50;
         backgrounds = GameObject.FindGameObjectsWithTag("Background");
         changeColorSpeed = 1;
+        rotateDirection = 1;
+        fieldOfView = 120;
+        fieldOfViewDirection = 1;
     }
 
     // Update is called once per frame
@@ -73,6 +80,7 @@ public class LevelDisplay : MonoBehaviour
             ChangeBackgroundColor();
             UpdateColors();
             UpdateRotateSpeed();
+            ChangeCameraFieldOfView();
         }
     }
 
@@ -154,9 +162,22 @@ public class LevelDisplay : MonoBehaviour
             {
                 time = 0;
                 switchRotationDeltaSeconds = UnityEngine.Random.Range(5, 15);
-                rotateSpeed = -rotateSpeed;
+                rotateDirection = -rotateDirection;
             }
-            camera.transform.Rotate(0, 0, rotateSpeed);
+            camera.transform.Rotate(0, 0, rotateSpeed*rotateDirection);
+        }
+    }
+
+    private void ChangeCameraFieldOfView()
+    {
+        if (defaultState)
+        {
+            fieldOfView += Time.deltaTime*fieldOfViewDirection;
+            if (fieldOfView > 135 || fieldOfView < 120)
+            {
+                fieldOfViewDirection = -fieldOfViewDirection;
+            }
+            camera.fieldOfView = fieldOfView;
         }
     }
 

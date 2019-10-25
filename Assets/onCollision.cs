@@ -17,17 +17,19 @@ public class onCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Enemy")
+        GameObject level = GameObject.FindGameObjectWithTag("Level");
+        if (other.gameObject.tag == "Enemy")
         {
-            GameObject.FindGameObjectWithTag("Level").GetComponent<LevelDisplay>().FireHitDisplay();
-            GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>().FireHitSpeed();
-            GameObject.FindGameObjectWithTag("Level").GetComponent<UserInterface>().score += 1f;
+            level.GetComponent<LevelDisplay>().FireHitDisplay();
+            level.GetComponent<LevelSpeed>().FireHitSpeed();
+            level.GetComponent<UserInterface>().score += 1f;
+            level.GetComponent<AudioScript>().PlayHitSound();
         }
         else if(other.gameObject.tag == "Finish")
         {
-            GameObject.FindGameObjectWithTag("Level").GetComponent<LevelDisplay>().Finish();
-            GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>().Finish();
-            GameObject.FindGameObjectWithTag("Level").GetComponent<UserInterface>().Finish();
+            level.GetComponent<LevelDisplay>().Finish();
+            level.GetComponent<LevelSpeed>().Finish();
+            level.GetComponent<UserInterface>().Finish();
         }
     }
 
