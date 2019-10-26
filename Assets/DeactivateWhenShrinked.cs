@@ -12,7 +12,7 @@ public class DeactivateWhenShrinked : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.lossyScale.magnitude < new Vector3(0.5f, 0.5f, 0.5f).magnitude)
+        if (transform.localScale.x < 0.7)
             Destroy(gameObject);
     }
 }

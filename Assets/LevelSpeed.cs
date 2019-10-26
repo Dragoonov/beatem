@@ -70,6 +70,10 @@ public class LevelSpeed : MonoBehaviour
 
     public void SpeedUpLevel()
     {
+        if(levelSpeed + speedUpLevelValue > 0.25f)
+        {
+            return;
+        }
         GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
 
         foreach (GameObject gameObject in gameObjects)
@@ -84,6 +88,10 @@ public class LevelSpeed : MonoBehaviour
 
     public void SlowDownLevel()
     {
+        if(levelSpeed - slowDownLevelValue < 0.01f)
+        {
+            return;
+        }
         GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
 
         foreach (GameObject gameObject in gameObjects)
@@ -92,7 +100,7 @@ public class LevelSpeed : MonoBehaviour
             gameObject.GetComponent<ChangeColor>().SlowDown(slowDownCameraColorSpeed);
         }
         GameObject.FindGameObjectWithTag("Finish").GetComponent<Shrink>().SlowDown(slowDownLevelValue);
-        GameObject.FindGameObjectWithTag("PlayerTransparent").GetComponent<Move>().rotateSpeed -= slowDownLevelValue * 100;
+        GameObject.FindGameObjectWithTag("PlayerTransparent").GetComponent<Move>().rotateSpeed -= slowDownLevelValue * 50;
         levelSpeed -= slowDownLevelValue;
     }
 

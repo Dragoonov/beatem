@@ -31,6 +31,7 @@ public class onCollision : MonoBehaviour
             level.GetComponent<LevelSpeed>().Finish();
             level.GetComponent<UserInterface>().Finish();
         }
+        Debug.Log("Kolizja");
     }
 
     private void OnTriggerExit2D(Collider2D collision)
