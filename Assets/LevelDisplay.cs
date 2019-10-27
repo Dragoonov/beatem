@@ -38,6 +38,12 @@ public class LevelDisplay : MonoBehaviour
     public float fieldOfView;
     private int fieldOfViewDirection;
 
+    GameObject centerCircle;
+    public float maxCircleRadius;
+    public float minCircleRadius;
+    private float transformToRadius;
+    public float pulsateSpeed;
+
     void Start()
     {
         InitializeLevel();
@@ -67,6 +73,11 @@ public class LevelDisplay : MonoBehaviour
         rotateDirection = 1;
         fieldOfView = 120;
         fieldOfViewDirection = 1;
+        centerCircle = GameObject.FindGameObjectWithTag("CenterDot");
+        maxCircleRadius = 1.20f;
+        minCircleRadius = 0.5f;
+        transformToRadius = maxCircleRadius;
+        pulsateSpeed = 0.01f;
     }
 
     // Update is called once per frame
@@ -81,6 +92,7 @@ public class LevelDisplay : MonoBehaviour
             UpdateColors();
             UpdateRotateSpeed();
             ChangeCameraFieldOfView();
+            PulsateCenterDot();
         }
     }
 
@@ -129,6 +141,39 @@ public class LevelDisplay : MonoBehaviour
             {
                 gameObject.GetComponent<ChangeColor>().UpdateColors();
             }
+        }
+    }
+
+    private void PulsateCenterDot()
+    {
+        ResolvePulsateSpeed();
+        float centerRadius = centerCircle.transform.localScale.y;
+        float lerpResult = Mathf.Lerp(centerRadius, transformToRadius, pulsateSpeed);
+        centerCircle.transform.localScale = new Vector3(lerpResult,lerpResult,lerpResult);
+        if(centerRadius >= maxCircleRadius-0.01f)
+        {
+            transformToRadius = minCircleRadius;
+        }
+        else if (centerRadius <= minCircleRadius+0.01f)
+        {
+            transformToRadius = maxCircleRadius;
+        }
+    }
+
+    private void ResolvePulsateSpeed()
+    {
+        float levelSpeed = rotateSpeed / 10;
+        if(levelSpeed < 0.08f)
+        {
+            pulsateSpeed = 0.01f;
+        }
+        else if(levelSpeed >= 0.08f && levelSpeed < 0.15f)
+        {
+            pulsateSpeed = 0.05f;
+        }
+        else if (levelSpeed >= 0.15f)
+        {
+            pulsateSpeed = 0.1f;
         }
     }
 

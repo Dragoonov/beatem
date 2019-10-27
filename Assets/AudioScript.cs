@@ -58,19 +58,19 @@ public class AudioScript : MonoBehaviour
     public void ResolveLevelSound()
     {
         float speedLevel = GetComponent<LevelSpeed>().levelSpeed;
-        if (speedLevel < 0.08 && speedSource.clip != slowClip)
+        if (speedLevel < 0.08f && speedSource.clip != slowClip)
         {
             speedSource.Stop();
             speedSource.clip = slowClip;
             speedSource.Play();
         }
-        else if (speedLevel >= 0.08 && speedLevel < 0.11 && speedSource.clip != mediumClip)
+        else if (speedLevel >= 0.08f && speedLevel < 0.15f && speedSource.clip != mediumClip)
         {
             speedSource.Stop();
             speedSource.clip = mediumClip;
             speedSource.Play();
         }
-        else if (speedLevel >= 0.11 && speedSource.clip != fastClip)
+        else if (speedLevel >= 0.15f && speedSource.clip != fastClip)
         {
             speedSource.Stop();
             speedSource.clip = fastClip;
