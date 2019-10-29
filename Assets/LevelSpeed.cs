@@ -19,6 +19,12 @@ public class LevelSpeed : MonoBehaviour
 
     public bool finished;
 
+    GameObject[] enemies;
+
+    GameObject finishCircle;
+
+    Move playerMovement;
+
 
     void Start()
     {
@@ -45,26 +51,27 @@ public class LevelSpeed : MonoBehaviour
         slowDownCameraColorSpeed = 1;
         hitTimerRunning = false;
         hitTimerSeconds = defaultHitTimerSeconds;
-}
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        finishCircle = GameObject.FindGameObjectWithTag("Finish");
+        playerMovement = GameObject.FindGameObjectWithTag("PlayerTransparent").GetComponent<Move>();
+    }
 
     private void InitializeEnemiesSpeed(float speed)
     {
-        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
-
-        foreach (GameObject gameObject in gameObjects)
+        foreach (GameObject enemy in enemies)
         {
-            gameObject.GetComponent<Shrink>().InitializeSpeed(speed);
+            if(enemy!=null)
+                enemy.GetComponent<Shrink>().InitializeSpeed(speed);
         }
-        GameObject.FindGameObjectWithTag("Finish").GetComponent<Shrink>().InitializeSpeed(speed);
+        finishCircle.GetComponent<Shrink>().InitializeSpeed(speed);
     }
 
     private void InitializeEnemiesBackgroundColorSpeed()
     {
-        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
-
-        foreach (GameObject gameObject in gameObjects)
+        foreach (GameObject enemy in enemies)
         {
-            gameObject.GetComponent<ChangeColor>().InitializeSpeed(backgroundColorSpeed);
+            if (enemy != null)
+                enemy.GetComponent<ChangeColor>().InitializeSpeed(backgroundColorSpeed);
         }
     }
 
@@ -74,15 +81,16 @@ public class LevelSpeed : MonoBehaviour
         {
             return;
         }
-        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
-
-        foreach (GameObject gameObject in gameObjects)
+        foreach (GameObject enemy in enemies)
         {
-            gameObject.GetComponent<Shrink>().SpeedUp(speedUpLevelValue);
-            gameObject.GetComponent<ChangeColor>().SpeedUp(speedUpCameraColorSpeed);
+            if (enemy != null)
+            {
+                enemy.GetComponent<Shrink>().SpeedUp(speedUpLevelValue);
+                enemy.GetComponent<ChangeColor>().SpeedUp(speedUpCameraColorSpeed);
+            }
         }
-        GameObject.FindGameObjectWithTag("Finish").GetComponent<Shrink>().SpeedUp(speedUpLevelValue);
-        GameObject.FindGameObjectWithTag("PlayerTransparent").GetComponent<Move>().rotateSpeed += speedUpLevelValue * 50;
+        finishCircle.GetComponent<Shrink>().SpeedUp(speedUpLevelValue);
+        playerMovement.rotateSpeed += speedUpLevelValue * 50;
         levelSpeed += speedUpLevelValue;
     }
 
@@ -92,15 +100,16 @@ public class LevelSpeed : MonoBehaviour
         {
             return;
         }
-        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
-
-        foreach (GameObject gameObject in gameObjects)
+        foreach (GameObject enemy in enemies)
         {
-            gameObject.GetComponent<Shrink>().SlowDown(slowDownLevelValue);
-            gameObject.GetComponent<ChangeColor>().SlowDown(slowDownCameraColorSpeed);
+            if (enemy != null)
+            {
+            enemy.GetComponent<Shrink>().SlowDown(slowDownLevelValue);
+            enemy.GetComponent<ChangeColor>().SlowDown(slowDownCameraColorSpeed);
+            }
         }
-        GameObject.FindGameObjectWithTag("Finish").GetComponent<Shrink>().SlowDown(slowDownLevelValue);
-        GameObject.FindGameObjectWithTag("PlayerTransparent").GetComponent<Move>().rotateSpeed -= slowDownLevelValue * 50;
+        finishCircle.GetComponent<Shrink>().SlowDown(slowDownLevelValue);
+        playerMovement.rotateSpeed -= slowDownLevelValue * 50;
         levelSpeed -= slowDownLevelValue;
     }
 
@@ -114,7 +123,7 @@ public class LevelSpeed : MonoBehaviour
                 hitTimerRunning = false;
                 hitTimerSeconds = defaultHitTimerSeconds;
                 InitializeEnemiesSpeed(levelSpeed);
-                GameObject.FindGameObjectWithTag("PlayerTransparent").GetComponent<Move>().Enable(true);
+                playerMovement.Enable(true);
             }
         }
     }
@@ -123,7 +132,7 @@ public class LevelSpeed : MonoBehaviour
     {
         hitTimerRunning = true;
         InitializeEnemiesSpeed(0);
-        GameObject.FindGameObjectWithTag("PlayerTransparent").GetComponent<Move>().Enable(false);
+        playerMovement.Enable(false);
     }
 
     public void Finish()

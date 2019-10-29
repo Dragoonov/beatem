@@ -13,6 +13,8 @@ public class DeactivateWhenShrinked : MonoBehaviour
     void Update()
     {
         if (transform.localScale.x < 0.7)
+        {
             Destroy(gameObject);
+        }
     }
 }

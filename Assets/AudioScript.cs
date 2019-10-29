@@ -13,6 +13,8 @@ public class AudioScript : MonoBehaviour
     public AudioClip fastClip;
     public AudioSource speedSource;
 
+    private LevelSpeed levelSpeed;
+
 
     public const float defaultHitTimerSeconds = 0.4f;
     public float hitTimerSeconds;
@@ -26,6 +28,7 @@ public class AudioScript : MonoBehaviour
         hitTimerSeconds = defaultHitTimerSeconds;
         hitTimerRunning = false;
         speedSource.Play();
+        levelSpeed = GetComponent<LevelSpeed>();
     }
 
     // Update is called once per frame
@@ -57,7 +60,7 @@ public class AudioScript : MonoBehaviour
 
     public void ResolveLevelSound()
     {
-        float speedLevel = GetComponent<LevelSpeed>().levelSpeed;
+        float speedLevel = levelSpeed.levelSpeed;
         if (speedLevel < 0.08f && speedSource.clip != slowClip)
         {
             speedSource.Stop();

@@ -44,6 +44,11 @@ public class LevelDisplay : MonoBehaviour
     private float transformToRadius;
     public float pulsateSpeed;
 
+    GameObject[] enemies;
+    SpriteRenderer playerRenderer;
+    SpriteRenderer centerDotRenderer;
+    LevelSpeed levelSpeed;
+
     void Start()
     {
         InitializeLevel();
@@ -78,6 +83,10 @@ public class LevelDisplay : MonoBehaviour
         minCircleRadius = 0.5f;
         transformToRadius = maxCircleRadius;
         pulsateSpeed = 0.01f;
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        playerRenderer = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
+        centerDotRenderer = GameObject.FindGameObjectWithTag("CenterDot").GetComponent<SpriteRenderer>();
+        levelSpeed = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>();
     }
 
     // Update is called once per frame
@@ -103,13 +112,13 @@ public class LevelDisplay : MonoBehaviour
             hitTimerSeconds -= Time.smoothDeltaTime;
             if (hitTimerSeconds < 0)
             {
-                GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
-                foreach (GameObject gameObject in gameObjects)
+                foreach (GameObject enemy in enemies)
                 {
-                    gameObject.GetComponent<ChangeColor>().ChangeObjectColor(defaultEnemiesColor);
+                    if(enemy!=null)
+                        enemy.GetComponent<ChangeColor>().ChangeObjectColor(defaultEnemiesColor);
                 }
-                GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>().color = defaultPlayerColor;
-                GameObject.FindGameObjectWithTag("CenterDot").GetComponent<SpriteRenderer>().color = defaultCenterColor;
+                playerRenderer.color = defaultPlayerColor;
+                centerDotRenderer.color = defaultCenterColor;
                 hitTimerRunning = false;
                 defaultState = true;
                 hitTimerSeconds = defaultHitTimerSeconds;
@@ -119,7 +128,7 @@ public class LevelDisplay : MonoBehaviour
 
     private void UpdateRotateSpeed()
     {
-        rotateSpeed = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>().levelSpeed * 10;
+        rotateSpeed = levelSpeed.levelSpeed * 10;
     }
 
     private void ChangeBackgroundColor()
@@ -136,10 +145,10 @@ public class LevelDisplay : MonoBehaviour
     {
         if(defaultState)
         {
-            GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach (GameObject gameObject in gameObjects)
+            foreach (GameObject enemy in enemies)
             {
-                gameObject.GetComponent<ChangeColor>().UpdateColors();
+                if (enemy != null)
+                    enemy.GetComponent<ChangeColor>().UpdateColors();
             }
         }
     }
@@ -181,16 +190,16 @@ public class LevelDisplay : MonoBehaviour
     {
         hitTimerRunning = true;
         defaultState = false;
-        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject gameObject in gameObjects)
+        foreach (GameObject enemy in enemies)
         {
-            gameObject.GetComponent<ChangeColor>().ChangeObjectColor(hitEnemiesColor);
+            if (enemy != null)
+                enemy.GetComponent<ChangeColor>().ChangeObjectColor(hitEnemiesColor);
         }
         camera.backgroundColor = hitBackgroundColor;
         backgrounds[0].GetComponent<SpriteRenderer>().color = hitBackgroundColor;
         backgrounds[1].GetComponent<SpriteRenderer>().color = hitBackgroundColor;
-        GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>().color = hitPlayerColor;
-        GameObject.FindGameObjectWithTag("CenterDot").GetComponent<SpriteRenderer>().color = hitCenterColor;
+        playerRenderer.color = hitPlayerColor;
+        centerDotRenderer.color = hitCenterColor;
     }
 
     public void Finish()

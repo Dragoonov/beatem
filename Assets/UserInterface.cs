@@ -7,8 +7,9 @@ public class UserInterface : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    GameObject tempoUI;
-    GameObject scoreUI;
+    Text tempoUI;
+    Text scoreUI;
+    LevelSpeed levelSpeed;
 
     public float score;
 
@@ -31,15 +32,16 @@ public class UserInterface : MonoBehaviour
     private void InitializeLevel()
     {
         finished = false;
-        tempoUI = GameObject.FindGameObjectWithTag("Tempo");
-        scoreUI = GameObject.FindGameObjectWithTag("Time");
+        tempoUI = GameObject.FindGameObjectWithTag("Tempo").GetComponent<Text>();
+        scoreUI = GameObject.FindGameObjectWithTag("Time").GetComponent<Text>();
+        levelSpeed = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>();
     }
 
     public void CalculateUI()
     {
         score += Time.deltaTime;
-        tempoUI.GetComponent<Text>().text = "Tempo: " + GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>().levelSpeed.ToString();
-        scoreUI.GetComponent<Text>().text = "Time: " + score.ToString("F2");
+        tempoUI.text = "Tempo: " + levelSpeed.levelSpeed.ToString();
+        scoreUI.text = "Time: " + score.ToString("F2");
     }
 
     public void Finish()
