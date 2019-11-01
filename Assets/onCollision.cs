@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class onCollision : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class onCollision : MonoBehaviour
             level.GetComponent<LevelDisplay>().Finish();
             level.GetComponent<LevelSpeed>().Finish();
             level.GetComponent<UserInterface>().Finish();
+            SceneManager.LoadScene("Main_Menu");
         }
     }
 
