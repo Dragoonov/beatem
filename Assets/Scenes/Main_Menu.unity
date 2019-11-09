@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -786,6 +786,7 @@ GameObject:
   - component: {fileID: 1042640395}
   - component: {fileID: 1042640394}
   - component: {fileID: 1042640393}
+  - component: {fileID: 1042640392}
   m_Layer: 5
   m_Name: Button (4)
   m_TagString: Untagged
@@ -813,6 +814,20 @@ RectTransform:
   m_AnchoredPosition: {x: 1.5, y: 1}
   m_SizeDelta: {x: 1, y: -4}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1042640392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042640390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe26c3d2b376df4881a8ec55581e335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 1042640393}
+  levelName: Endless_Level
 --- !u!114 &1042640393
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,7 +17,13 @@ public class onCollision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (playerLifes < 1)
+        {
+            level.GetComponent<LevelDisplay>().Finish();
+            level.GetComponent<LevelSpeed>().Finish();
+            level.GetComponent<UserInterface>().Finish();
+            SceneManager.LoadScene("Main_Menu");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -30,7 +36,7 @@ public class onCollision : MonoBehaviour
             level.GetComponent<AudioScript>().PlayHitSound();
             playerLifes--;
         }
-        else if(other.gameObject.tag == "Finish" || playerLifes<1)
+        else if(other.gameObject.tag == "Finish")
         {
             level.GetComponent<LevelDisplay>().Finish();
             level.GetComponent<LevelSpeed>().Finish();
