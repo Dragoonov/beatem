@@ -9,7 +9,9 @@ public class UserInterface : MonoBehaviour
 
     Text tempoUI;
     Text scoreUI;
+    Text lifesUI;
     LevelSpeed levelSpeed;
+    onCollision playerCollision;
 
     public float score;
 
@@ -34,7 +36,9 @@ public class UserInterface : MonoBehaviour
         finished = false;
         tempoUI = GameObject.FindGameObjectWithTag("Tempo").GetComponent<Text>();
         scoreUI = GameObject.FindGameObjectWithTag("Time").GetComponent<Text>();
+        lifesUI = GameObject.FindGameObjectWithTag("Lifes").GetComponent<Text>();
         levelSpeed = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>();
+        playerCollision = GameObject.FindGameObjectWithTag("Player").GetComponent<onCollision>();
     }
 
     public void CalculateUI()
@@ -42,6 +46,7 @@ public class UserInterface : MonoBehaviour
         score += Time.deltaTime;
         tempoUI.text = "Tempo: " + levelSpeed.levelSpeed.ToString();
         scoreUI.text = "Time: " + score.ToString("F2");
+        lifesUI.text = "Lifes: " + playerCollision.playerLifes;
     }
 
     public void Finish()

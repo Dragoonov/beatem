@@ -4,7 +4,7 @@ public class ChangeColor : MonoBehaviour
 {
 
     // Reference to Sprite Renderer component
-    private SpriteRenderer rend;
+    SpriteRenderer rend;
 
     // Color value that we can set in Inspector
     // It's White by default
@@ -86,7 +86,10 @@ public class ChangeColor : MonoBehaviour
                 }
                 break;
         }
-        rend.color = new Color32(color1, color2, color3, 255);
+        if(rend != null)
+        {
+            rend.color = new Color32(color1, color2, color3, 255);
+        }
     }
 
     public void SpeedUp(byte value)

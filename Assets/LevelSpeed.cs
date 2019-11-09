@@ -19,7 +19,7 @@ public class LevelSpeed : MonoBehaviour
 
     public bool finished;
 
-    GameObject[] enemies;
+    public List<GameObject> enemies;
 
     GameObject finishCircle;
 
@@ -51,7 +51,7 @@ public class LevelSpeed : MonoBehaviour
         slowDownCameraColorSpeed = 1;
         hitTimerRunning = false;
         hitTimerSeconds = defaultHitTimerSeconds;
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        enemies = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
         finishCircle = GameObject.FindGameObjectWithTag("Finish");
         playerMovement = GameObject.FindGameObjectWithTag("PlayerTransparent").GetComponent<Move>();
     }

@@ -12,6 +12,8 @@ TagManager:
   - Tempo
   - Time
   - Background
+  - GroupEnemy
+  - Lifes
   layers:
   - Default
   - TransparentFX

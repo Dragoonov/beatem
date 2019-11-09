@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class onCollision : MonoBehaviour
 {
     // Start is called before the first frame update
-
+    public float playerLifes;
     GameObject level;
 
     void Start()
@@ -28,8 +28,9 @@ public class onCollision : MonoBehaviour
             level.GetComponent<LevelSpeed>().FireHitSpeed();
             level.GetComponent<UserInterface>().score += 1f;
             level.GetComponent<AudioScript>().PlayHitSound();
+            playerLifes--;
         }
-        else if(other.gameObject.tag == "Finish")
+        else if(other.gameObject.tag == "Finish" || playerLifes<1)
         {
             level.GetComponent<LevelDisplay>().Finish();
             level.GetComponent<LevelSpeed>().Finish();

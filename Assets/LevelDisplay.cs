@@ -44,7 +44,7 @@ public class LevelDisplay : MonoBehaviour
     private float transformToRadius;
     public float pulsateSpeed;
 
-    GameObject[] enemies;
+    public List<GameObject> enemies;
     SpriteRenderer playerRenderer;
     SpriteRenderer centerDotRenderer;
     LevelSpeed levelSpeed;
@@ -83,7 +83,7 @@ public class LevelDisplay : MonoBehaviour
         minCircleRadius = 0.5f;
         transformToRadius = maxCircleRadius;
         pulsateSpeed = 0.01f;
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        enemies = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
         playerRenderer = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
         centerDotRenderer = GameObject.FindGameObjectWithTag("CenterDot").GetComponent<SpriteRenderer>();
         levelSpeed = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>();

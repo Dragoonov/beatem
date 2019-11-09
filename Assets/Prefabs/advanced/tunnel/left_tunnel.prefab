@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7175959908724745527}
   m_Layer: 0
   m_Name: left_tunnel
-  m_TagString: Untagged
+  m_TagString: GroupEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
