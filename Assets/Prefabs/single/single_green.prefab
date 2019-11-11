@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 4412747403641466929, guid: de5895df87ee1994badf3e27947a46e8,
         type: 3}
       propertyPath: m_Name
-      value: base_circle_one_hole (1)
+      value: single_green
       objectReference: {fileID: 0}
     - target: {fileID: 4412747403641466934, guid: de5895df87ee1994badf3e27947a46e8,
         type: 3}

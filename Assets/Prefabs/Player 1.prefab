@@ -251,6 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd427e112192f94b9073a1d518ddc26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerLifes: 0
 --- !u!60 &8078149497060312179
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -383,11 +384,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3909304452904250568}
     m_Modifications:
-    - target: {fileID: 5000838833968238855, guid: 49340fdf13c9c0943b2997c0a8876591,
-        type: 3}
-      propertyPath: m_Name
-      value: Transparentjpg
-      objectReference: {fileID: 0}
     - target: {fileID: 5000838833968238858, guid: 49340fdf13c9c0943b2997c0a8876591,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -442,6 +438,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5000838833968238855, guid: 49340fdf13c9c0943b2997c0a8876591,
+        type: 3}
+      propertyPath: m_Name
+      value: Transparentjpg
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49340fdf13c9c0943b2997c0a8876591, type: 3}
