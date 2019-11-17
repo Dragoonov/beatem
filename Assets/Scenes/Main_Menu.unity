@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 565597861}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: MainMenu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -821,6 +821,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 1042640393}
   levelName: Endless_Level
+  UIElementName: 
+  action: 0
 --- !u!114 &1042640393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1198,6 +1200,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 1302807061}
   levelName: Level_List
+  UIElementName: LevelList
+  action: 0
 --- !u!114 &1302807061
 MonoBehaviour:
   m_ObjectHideFlags: 0

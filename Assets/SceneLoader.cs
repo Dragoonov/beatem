@@ -4,13 +4,28 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public enum Action
+{
+    LoadLevel,
+    LoadUIElement
+}
+
 public class SceneLoader : MonoBehaviour
 {
     public Button button;
     public string levelName;
+    public string UIElementName;
+    public Action action;
     void Start()
     {
-        button.GetComponent<Button>().onClick.AddListener(LoadLevel);
+        if (action == Action.LoadLevel)
+        {
+            button.GetComponent<Button>().onClick.AddListener(LoadLevel);
+        }
+        else if (action == Action.LoadUIElement)
+        {
+            button.GetComponent<Button>().onClick.AddListener(LoadUI);
+        }
     }
 
     // Update is called once per frame
@@ -19,8 +34,26 @@ public class SceneLoader : MonoBehaviour
         
     }
 
+    private void InitializeUIs()
+    {
+        GameObject.FindGameObjectWithTag("MainMenu").SetActive(true);
+        GameObject.FindGameObjectWithTag("LevelList").SetActive(false);
+    }
+
+    private void ClearUIs()
+    {
+        GameObject.FindGameObjectWithTag("MainMenu").SetActive(false);
+        GameObject.FindGameObjectWithTag("LevelList").SetActive(false);
+    }
+
     public void LoadLevel()
     {
         SceneManager.LoadScene(levelName);
+    }
+
+    public void LoadUI()
+    {
+        ClearUIs();
+        GameObject.FindGameObjectWithTag(UIElementName).SetActive(true);
     }
 }

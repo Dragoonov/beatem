@@ -224,14 +224,18 @@ public class LevelDisplay : MonoBehaviour
 
     private void ChangeCameraFieldOfView()
     {
-        if (defaultState)
+        float levelSpeed = rotateSpeed / 10;
+        if (levelSpeed < 0.08f && camera.fieldOfView != 120)
         {
-            fieldOfView += Time.deltaTime*fieldOfViewDirection;
-            if (fieldOfView > 135 || fieldOfView < 120)
-            {
-                fieldOfViewDirection = -fieldOfViewDirection;
-            }
-            camera.fieldOfView = fieldOfView;
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 120f, 0.05f);
+        }
+        else if (levelSpeed >= 0.08f && levelSpeed < 0.15f && camera.fieldOfView != 130f)
+        {
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 130f, 0.05f);
+        }
+        else if (levelSpeed >= 0.15f && camera.fieldOfView != 140f)
+        {
+            camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 140f, 0.05f);
         }
     }
 
