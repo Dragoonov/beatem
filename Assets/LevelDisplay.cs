@@ -36,7 +36,6 @@ public class LevelDisplay : MonoBehaviour
     public bool finished;
 
     public float fieldOfView;
-    private int fieldOfViewDirection;
 
     GameObject centerCircle;
     public float maxCircleRadius;
@@ -77,7 +76,6 @@ public class LevelDisplay : MonoBehaviour
         changeColorSpeed = 1;
         rotateDirection = 1;
         fieldOfView = 120;
-        fieldOfViewDirection = 1;
         centerCircle = GameObject.FindGameObjectWithTag("CenterDot");
         maxCircleRadius = 1.20f;
         minCircleRadius = 0.5f;
@@ -171,16 +169,15 @@ public class LevelDisplay : MonoBehaviour
 
     private void ResolvePulsateSpeed()
     {
-        float levelSpeed = rotateSpeed / 10;
-        if(levelSpeed < 0.08f)
+        if (levelSpeed.levelSpeed < 0.08f)
         {
             pulsateSpeed = 0.01f;
         }
-        else if(levelSpeed >= 0.08f && levelSpeed < 0.15f)
+        else if (levelSpeed.levelSpeed >= 0.08f && levelSpeed.levelSpeed < 0.15f)
         {
             pulsateSpeed = 0.05f;
         }
-        else if (levelSpeed >= 0.15f)
+        else if (levelSpeed.levelSpeed >= 0.15f)
         {
             pulsateSpeed = 0.1f;
         }
@@ -224,16 +221,15 @@ public class LevelDisplay : MonoBehaviour
 
     private void ChangeCameraFieldOfView()
     {
-        float levelSpeed = rotateSpeed / 10;
-        if (levelSpeed < 0.08f && camera.fieldOfView != 120)
+        if (levelSpeed.levelSpeed < 0.08f && camera.fieldOfView != 120f)
         {
             camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 120f, 0.05f);
         }
-        else if (levelSpeed >= 0.08f && levelSpeed < 0.15f && camera.fieldOfView != 130f)
+        else if (levelSpeed.levelSpeed >= 0.08f && levelSpeed.levelSpeed < 0.15f && camera.fieldOfView != 130f)
         {
             camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 130f, 0.05f);
         }
-        else if (levelSpeed >= 0.15f && camera.fieldOfView != 140f)
+        else if (levelSpeed.levelSpeed >= 0.15f && camera.fieldOfView != 140f)
         {
             camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 140f, 0.05f);
         }
