@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class onCollision : MonoBehaviour
 {
     // Start is called before the first frame update
     public float playerLifes;
     GameObject level;
+    UserManager user;
 
     void Start()
     {
         level = GameObject.FindGameObjectWithTag("Level");
+        user = GameObject.Find("User").GetComponent<UserManager>();
     }
 
     // Update is called once per frame
@@ -19,10 +22,11 @@ public class onCollision : MonoBehaviour
     {
         if (playerLifes < 1)
         {
-            level.GetComponent<LevelDisplay>().Finish();
+            LevelDisplay levelDisplay = level.GetComponent<LevelDisplay>();
+            levelDisplay.Finish();
             level.GetComponent<LevelSpeed>().Finish();
             level.GetComponent<UserInterface>().Finish();
-            SceneManager.LoadScene("Main_Menu");
+            levelDisplay.ShowFinishPanel();
         }
     }
 
@@ -38,10 +42,11 @@ public class onCollision : MonoBehaviour
         }
         else if(other.gameObject.tag == "Finish")
         {
-            level.GetComponent<LevelDisplay>().Finish();
+            LevelDisplay levelDisplay = level.GetComponent<LevelDisplay>();
+            levelDisplay.Finish();
             level.GetComponent<LevelSpeed>().Finish();
             level.GetComponent<UserInterface>().Finish();
-            SceneManager.LoadScene("Main_Menu");
+            levelDisplay.ShowFinishPanel();
         }
     }
 

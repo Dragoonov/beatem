@@ -2,13 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelDisplay : MonoBehaviour
 {
+    public int lvlNumber;
+
     public bool defaultState;
 
-    Camera camera;
-
+    public Camera camera;
+    GameObject finishPanel;
     public Color defaultEnemiesColor;
     public Color defaultPlayerColor;
     public Color defaultCenterColor;
@@ -55,6 +58,8 @@ public class LevelDisplay : MonoBehaviour
 
     private void InitializeLevel()
     {
+        finishPanel = GameObject.Find("FinishPanel");
+        finishPanel.SetActive(false);
         defaultState = true;
         defaultEnemiesColor = Color.black;
         defaultPlayerColor = Color.black;
@@ -204,6 +209,21 @@ public class LevelDisplay : MonoBehaviour
         finished = true;
     }
 
+    public void ShowFinishPanel()
+    {
+        UserManager user = GameObject.Find("User").GetComponent<UserManager>();
+        UserInterface userInterface = GameObject.Find("Level").GetComponent<UserInterface>();
+        camera.transform.Rotate(0, 0, 0);
+        finishPanel.SetActive(true);
+        GameObject.Find("FinishScore").GetComponent<Text>().text = "Score: " + Math.Round(userInterface.score,2);
+        user.UpdateScore("lvl" + lvlNumber + "Score", userInterface.score, lvlNumber);
+        GameObject.Find("speedLevelAudioSource").GetComponent<AudioSource>().Stop();
+        if (lvlNumber < 10)
+        {
+            user.UpdateUnlocked("lvl" + (lvlNumber + 1) + "Unlocked", 1, lvlNumber);
+        }
+    }
+
     private void ChangeCameraRotation()
     {
         if(defaultState)
@@ -233,6 +253,7 @@ public class LevelDisplay : MonoBehaviour
         {
             camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, 140f, 0.05f);
         }
+        fieldOfView = camera.fieldOfView;
     }
 
     private void UpdateColors()
