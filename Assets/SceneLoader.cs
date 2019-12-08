@@ -48,15 +48,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadLevel()
     {
-        if(levelName.Equals("Exit"))
-        {
-            Debug.Log("Exit");
-            Application.Quit();
-        }
-        else
-        {
-            SceneManager.LoadScene(levelName);
-        }
+        SceneManager.LoadScene(levelName);
     }
 
     public void LoadUI()

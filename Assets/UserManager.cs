@@ -8,6 +8,7 @@ public class UserManager : MonoBehaviour
     public float[] lvlsUnlocked;
     public float[] lvlsScore;
     public float endlessScore;
+    private Firebase.Auth.FirebaseUser loggedUser;
     public static UserManager instance;
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,16 @@ public class UserManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void setLoggedUser(Firebase.Auth.FirebaseUser newUser)
+    {
+        loggedUser = newUser;
+    }
+
+    public Firebase.Auth.FirebaseUser GetLoggedUser()
+    {
+        return loggedUser;
     }
 
     // Update is called once per frame
