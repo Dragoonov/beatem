@@ -9,12 +9,10 @@ public class onCollision : MonoBehaviour
     // Start is called before the first frame update
     public float playerLifes;
     GameObject level;
-    UserManager user;
 
     void Start()
     {
         level = GameObject.FindGameObjectWithTag("Level");
-        user = GameObject.Find("User").GetComponent<UserManager>();
     }
 
     // Update is called once per frame
