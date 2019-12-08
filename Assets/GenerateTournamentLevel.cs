@@ -26,10 +26,6 @@ public class GenerateTournamentLevel : MonoBehaviour
         levelObjects = new List<GameObject>();
         initialAngles = new float[] { 45, -45, 90, -90, 135, -135, 180, -180 };
         currentEnemy = 0;
-        for (int i = 0; i < objectsNumber; i++)
-        {
-            InitializeNewEnemy();
-        }
         Debug.Log(levelObjects);
         level.SetActive(false);
     }
@@ -39,18 +35,33 @@ public class GenerateTournamentLevel : MonoBehaviour
     {
         if(startLevel)
         {
-            StartLevel();
             ReleaseEnemies();
         }
     }
 
-    private void StartLevel()
+    public List<GameObject> GenerateLevel()
     {
-        if (level.activeInHierarchy == false)
+        for (int i = 0; i < objectsNumber; i++)
         {
-            level.SetActive(true);
-            startLevel = true;
+            InitializeNewEnemy();
         }
+        return levelObjects;
+    }
+
+    public void SetLevel(List<GameObject> level)
+    {
+        levelObjects = level;
+    }
+
+    public List<GameObject> getLevel()
+    {
+        return levelObjects;
+    }
+
+    public void StartLevel()
+    {
+         level.SetActive(true);
+         startLevel = true;
     }
 
     private void ReleaseEnemies()
