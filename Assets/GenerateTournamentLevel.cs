@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,8 +9,8 @@ public class GenerateTournamentLevel : MonoBehaviour
     private float initialScale;
     public LevelSpeed levelSpeed;
     public LevelDisplay levelDisplay;
-    GameObject level;
-    List<GameObject> levelObjects;
+    GameObject levelObject;
+    public List<GameObject> levelObjects;
     public int objectsNumber;
     private int currentEnemy;
     public bool startLevel;
@@ -22,12 +23,12 @@ public class GenerateTournamentLevel : MonoBehaviour
         initialScale = 15f;
         levelSpeed = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>();
         levelDisplay = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelDisplay>();
-        level = levelDisplay.gameObject;
+        levelObject = levelDisplay.gameObject;
         levelObjects = new List<GameObject>();
         initialAngles = new float[] { 45, -45, 90, -90, 135, -135, 180, -180 };
         currentEnemy = 0;
-        Debug.Log(levelObjects);
-        level.SetActive(false);
+        //Debug.Log(levelObjects);
+        levelObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -39,18 +40,22 @@ public class GenerateTournamentLevel : MonoBehaviour
         }
     }
 
-    public List<GameObject> GenerateLevel()
+    public List<ObstacleDataWrapper> GenerateLevel()
+    {
+        List<ObstacleDataWrapper> list = new List<ObstacleDataWrapper>();
+        for (int i = 0; i < objectsNumber; i++)
+        {
+            list.Add(InitializeNewEnemy());
+        }
+        return list;
+    }
+
+    public void SetLevel(List<ObstacleDataWrapper> level)
     {
         for (int i = 0; i < objectsNumber; i++)
         {
-            InitializeNewEnemy();
+            InitializeNewEnemy(level[i]);
         }
-        return levelObjects;
-    }
-
-    public void SetLevel(List<GameObject> level)
-    {
-        levelObjects = level;
     }
 
     public List<GameObject> getLevel()
@@ -60,7 +65,7 @@ public class GenerateTournamentLevel : MonoBehaviour
 
     public void StartLevel()
     {
-         level.SetActive(true);
+         levelObject.SetActive(true);
          startLevel = true;
     }
 
@@ -90,19 +95,34 @@ public class GenerateTournamentLevel : MonoBehaviour
         }
     }
 
-    private void InitializeNewEnemy()
+    private ObstacleDataWrapper InitializeNewEnemy(ObstacleDataWrapper model = null)
     {
+        ObstacleDataWrapper randoms;
+        int randomAngle;
+        int randomObject;
+        if (model == null)
+        {
+            randomAngle = UnityEngine.Random.Range(0, initialAngles.Length);
+            randomObject = UnityEngine.Random.Range(0, gameObjects.Length);
+            randoms = new ObstacleDataWrapper(randomAngle, randomObject);
+        }
+        else
+        {
+            randoms = model;
+            randomAngle = model.angle;
+            randomObject = model.obj;
+        }
         float previousAngle;
         float scaleDifference;
-        GameObject obj = Instantiate(gameObjects[Random.Range(0, gameObjects.Length)], new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject obj = Instantiate(gameObjects[randomObject], new Vector3(0, 0, 0), Quaternion.identity);
         obj.SetActive(false);
         levelObjects.Add(obj);
 
         if (obj.tag == "GroupEnemy")
         {
-            previousAngle = initialAngles[Random.Range(0, initialAngles.Length)];
+            previousAngle = initialAngles[randomAngle];
             scaleDifference = obj.transform.GetChild(1).gameObject.transform.localScale.x - obj.transform.GetChild(0).gameObject.transform.localScale.x;
-            Debug.Log(scaleDifference);
+            //Debug.Log(scaleDifference);
             for (int i = 0; i < obj.transform.childCount; i++)
             {
                 GameObject temp = obj.transform.GetChild(i).gameObject;
@@ -116,12 +136,13 @@ public class GenerateTournamentLevel : MonoBehaviour
         }
         else
         {
-            obj.transform.Rotate(0, 0, initialAngles[Random.Range(0, initialAngles.Length)]);
+            obj.transform.Rotate(0, 0, initialAngles[randomAngle]);
             obj.GetComponent<Shrink>().InitializeSpeed(levelSpeed.levelSpeed);
             obj.GetComponent<ChangeColor>().InitializeSpeed(levelSpeed.backgroundColorSpeed);
             obj.transform.localScale = new Vector3(initialScale, initialScale);
             levelSpeed.enemies.Add(obj);
             levelDisplay.enemies.Add(obj);
         }
+        return randoms;
     }
 }
