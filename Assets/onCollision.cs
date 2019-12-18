@@ -9,10 +9,16 @@ public class onCollision : MonoBehaviour
     // Start is called before the first frame update
     public float playerLifes;
     GameObject level;
+    FirebaseConnector connector;
 
     void Start()
     {
         level = GameObject.FindGameObjectWithTag("Level");
+        GameObject tournament = GameObject.Find("TournamentConnector");
+        if(tournament != null)
+        {
+            connector = tournament.GetComponent<FirebaseConnector>();
+        }
     }
 
     // Update is called once per frame
@@ -57,6 +63,10 @@ public class onCollision : MonoBehaviour
         else
         {
             Destroy(collision.gameObject);
+        }
+        if (connector != null)
+        {
+            connector.OnTravelObstacle();
         }
     }
 }

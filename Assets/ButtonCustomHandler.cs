@@ -16,10 +16,12 @@ public class ButtonCustomHandler : MonoBehaviour
     InputField email;
     InputField password;
     Text errorMessage;
+    Button multiplayerButton;
     private string errorMessageString;
 
     public void Start()
     {
+        multiplayerButton = GameObject.Find("MultiplayerButton").GetComponent<Button>();
         formPanel = GameObject.Find("FormPanel");
         errorMessage = GameObject.Find("ErrorMessage").GetComponent<Text>();
         email = GameObject.Find("Email").GetComponent<InputField>();
@@ -52,6 +54,7 @@ public class ButtonCustomHandler : MonoBehaviour
 
     private void ChangeLayoutSignedIn()
     {
+        multiplayerButton.interactable = true;
         userName.SetActive(true);
         userName.GetComponent<Text>().text = userManager.GetLoggedUser().DisplayName;
         signInButton.SetActive(false);
@@ -61,6 +64,7 @@ public class ButtonCustomHandler : MonoBehaviour
 
     private void ChangeLayoutSignedOut()
     {
+        multiplayerButton.interactable = false;
         userName.SetActive(false);
         signInButton.SetActive(true);
         signUpButton.SetActive(true);
