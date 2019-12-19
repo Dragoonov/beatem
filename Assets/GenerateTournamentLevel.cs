@@ -6,6 +6,7 @@ using UnityEngine;
 public class GenerateTournamentLevel : MonoBehaviour
 {
     public GameObject[] gameObjects;
+    public GameObject finishCircle;
     private float initialScale;
     public LevelSpeed levelSpeed;
     public LevelDisplay levelDisplay;
@@ -43,19 +44,21 @@ public class GenerateTournamentLevel : MonoBehaviour
     public List<ObstacleDataWrapper> GenerateLevel()
     {
         List<ObstacleDataWrapper> list = new List<ObstacleDataWrapper>();
-        for (int i = 0; i < objectsNumber; i++)
+        for (int i = 0; i < objectsNumber-1; i++)
         {
             list.Add(InitializeNewEnemy());
         }
+        list.Add(InitializeNewEnemy(true));
         return list;
     }
 
     public void SetLevel(List<ObstacleDataWrapper> level)
     {
-        for (int i = 0; i < objectsNumber; i++)
+        for (int i = 0; i < objectsNumber-1; i++)
         {
-            InitializeNewEnemy(level[i]);
+            InitializeNewEnemy(false, level[i]);
         }
+        InitializeNewEnemy(true);
     }
 
     public List<GameObject> getLevel()
@@ -71,7 +74,7 @@ public class GenerateTournamentLevel : MonoBehaviour
 
     private void ReleaseEnemies()
     {
-        if(currentEnemy >= objectsNumber-1)
+        if(currentEnemy >= objectsNumber)
         {
             return;
         }
@@ -95,7 +98,7 @@ public class GenerateTournamentLevel : MonoBehaviour
         }
     }
 
-    private ObstacleDataWrapper InitializeNewEnemy(ObstacleDataWrapper model = null)
+    private ObstacleDataWrapper InitializeNewEnemy(bool finish = false, ObstacleDataWrapper model = null)
     {
         ObstacleDataWrapper randoms;
         int randomAngle;
@@ -114,7 +117,15 @@ public class GenerateTournamentLevel : MonoBehaviour
         }
         float previousAngle;
         float scaleDifference;
-        GameObject obj = Instantiate(gameObjects[randomObject], new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject obj;
+        if(!finish)
+        {
+            obj = Instantiate(gameObjects[randomObject], new Vector3(0, 0, 0), Quaternion.identity);
+        }
+        else
+        {
+            obj = Instantiate(finishCircle, new Vector3(0, 0, 0), Quaternion.identity);
+        }
         obj.SetActive(false);
         levelObjects.Add(obj);
 
@@ -128,7 +139,10 @@ public class GenerateTournamentLevel : MonoBehaviour
                 GameObject temp = obj.transform.GetChild(i).gameObject;
                 temp.transform.Rotate(0, 0, previousAngle + temp.transform.rotation.z);
                 temp.GetComponent<Shrink>().InitializeSpeed(levelSpeed.levelSpeed);
-                temp.GetComponent<ChangeColor>().InitializeSpeed(levelSpeed.backgroundColorSpeed);
+                if(temp.tag != "Finish")
+                {
+                    temp.GetComponent<ChangeColor>().InitializeSpeed(levelSpeed.backgroundColorSpeed);
+                }
                 temp.transform.localScale = new Vector3(initialScale + i*scaleDifference, initialScale + i*scaleDifference);
                 levelSpeed.enemies.Add(temp);
                 levelDisplay.enemies.Add(temp);

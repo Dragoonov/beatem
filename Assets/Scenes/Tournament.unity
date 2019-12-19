@@ -1236,6 +1236,8 @@ MonoBehaviour:
   - {fileID: 2421019501426384076, guid: de89ffe8bcb13d94e9bf0991af8ea143, type: 3}
   - {fileID: 7495354521113346695, guid: b5f577a629a336d4a85a6429eab2d0b9, type: 3}
   - {fileID: 320489358063144494, guid: 60d35d1c021b54d47a1afeb7deb09bb5, type: 3}
+  finishCircle: {fileID: 3290291593433303420, guid: 232c995857166c341925297a785f691a,
+    type: 3}
   levelSpeed: {fileID: 0}
   levelDisplay: {fileID: 0}
   levelObjects: []
