@@ -30,6 +30,7 @@ public class FirebaseConnector : MonoBehaviour
     Text obstaclesTravelled;
     int enemyObstaclesTravelledAmount;
 
+    bool handleListeners = true;
     void Start()
     {
         obstaclesTravelled = GameObject.Find("TravelledObstacles").GetComponent<Text>();
@@ -40,7 +41,6 @@ public class FirebaseConnector : MonoBehaviour
         ready = false;
         competitorReady = false;
         checkFirebaseVersion();
-        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://beatem-d1472.firebaseio.com/");
         level = GameObject.Find("LevelGenerator").GetComponent<GenerateTournamentLevel>();
         startingPanel = GameObject.Find("StartingPanel");
         tournamentMessage = GameObject.Find("TournamentMessage");
@@ -48,15 +48,6 @@ public class FirebaseConnector : MonoBehaviour
         findButton = GameObject.Find("FindButton");
         backButton = GameObject.Find("BackButton");
         tournamentMessage.SetActive(false);
-
-        if (user.GetLoggedUser().UserId.Equals(lvlAddress))
-        {
-            playerRole = "creator";
-        }
-        else
-        {
-            playerRole = "guest";
-        }
     }
 
     // Update is called once per frame
@@ -103,7 +94,7 @@ public class FirebaseConnector : MonoBehaviour
         tournamentMessage.SetActive(true);
         generateButton.SetActive(false);
         findButton.SetActive(false);
-        backButton.SetActive(false);
+        //backButton.SetActive(false);
     }
 
     private void checkFirebaseVersion()
@@ -114,6 +105,7 @@ public class FirebaseConnector : MonoBehaviour
             {
                 reference = FirebaseDatabase.DefaultInstance.RootReference;
                 Debug.Log("Wszystko git");
+                FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://beatem-d1472.firebaseio.com/");
             }
             else
             {
@@ -126,14 +118,15 @@ public class FirebaseConnector : MonoBehaviour
 
     public void OnGenerate()
     {
+        playerRole = "creator";
         HideLayout();
         tournamentMessage.GetComponent<Text>().text = "Setting everything ready...";
 
         string email = user.GetLoggedUser().Email;
 
         wrapper = new TournamentDataWrapper(
-            new Competitor(email.Substring(0, email.IndexOf('@')), false, 0),
-            new Competitor("guest", false, 0),
+            new Competitor(email.Substring(0, email.IndexOf('@')), false, 0, false),
+            new Competitor("guest", false, 0, false),
             new LevelWrapper(level.GenerateLevel()));
 
         reference.Child("Tournaments")
@@ -155,66 +148,184 @@ public class FirebaseConnector : MonoBehaviour
             .Child("guest")
             .Child("obstaclesTravelled").ValueChanged += HandleCompetitorTravelledObstacle;
 
+        reference.Child("Tournaments")
+            .Child(user.GetLoggedUser().UserId)
+            .Child("guest")
+            .Child("finished").ValueChanged += HandleCompetitorFinished;
+
         tournamentMessage.GetComponent<Text>().text = "Waiting for opponent...";
     }
 
     void HandleGuestJoined(object sender, ValueChangedEventArgs args)
     {
-        if (args.DatabaseError != null)
+        if(handleListeners)
         {
-            Debug.LogError(args.DatabaseError.Message);
-            return;
+            if (args.DatabaseError != null)
+            {
+                Debug.LogError(args.DatabaseError.Message);
+                return;
+            }
+            competitor = (string)args.Snapshot.GetValue(false);
+            if (competitor != "guest")
+            {
+                startingPanel.SetActive(false);
+                readyPanel.SetActive(true);
+            }
         }
-        competitor = (string)args.Snapshot.GetValue(false);
-        if(competitor != "guest")
-        {
-        startingPanel.SetActive(false);
-        readyPanel.SetActive(true);
-        }
+        
     }
+
+    void HandleCompetitorFinished(object sender, ValueChangedEventArgs args)
+    {
+        if(handleListeners)
+        {
+            if (args.DatabaseError != null)
+            {
+                Debug.LogError(args.DatabaseError.Message);
+                return;
+            }
+            bool finished = (bool)args.Snapshot.GetValue(false);
+            if (finished)
+            {
+                GameObject levelTemp = GameObject.FindGameObjectWithTag("Level");
+                LevelDisplay levelDisplay = levelTemp.GetComponent<LevelDisplay>();
+                levelDisplay.Finish();
+                levelTemp.GetComponent<LevelSpeed>().Finish();
+                levelTemp.GetComponent<UserInterface>().Finish();
+                levelDisplay.ShowFinishPanel("You lost!");
+                RemoveConnections(playerRole.Equals("creator") ? "guest" : "creator");
+                //reference.Child("Tournaments")
+                //.Child(user.GetLoggedUser().UserId)
+                //.SetRawJsonValueAsync(JsonUtility.ToJson(wrapper));
+            }
+        }
+        
+    }
+
+    public void OnFinish()
+    {
+        Dictionary<string, object> finishUpdate = new Dictionary<string, object>();
+        finishUpdate["/Tournaments/" + lvlAddress + "/" + playerRole + "/finished"] = true;
+        reference.UpdateChildrenAsync(finishUpdate);
+        reference.Child("Tournaments")
+            .Child(user.GetLoggedUser().UserId)
+            .SetRawJsonValueAsync(JsonUtility.ToJson(wrapper));
+        RemoveConnections(playerRole.Equals("creator") ? "guest" : "creator");
+    }
+
 
     void HandleCompetitorTravelledObstacle(object sender, ValueChangedEventArgs args)
     {
-        if (args.DatabaseError != null)
+        if(handleListeners)
         {
-            Debug.LogError(args.DatabaseError.Message);
-            return;
+            if (args.DatabaseError != null)
+            {
+                Debug.LogError(args.DatabaseError.Message);
+                return;
+            }
+            obstaclesTravelled.text = "Enemy rings: " + args.Snapshot.GetValue(false);
         }
-         obstaclesTravelled.text = "Enemy rings: " + args.Snapshot.GetValue(false);
+        
     }
 
     void HandleCompetitorReady(object sender, ValueChangedEventArgs args)
     {
-        if (args.DatabaseError != null)
+        if(handleListeners)
         {
-            Debug.LogError(args.DatabaseError.Message);
-            return;
-        }
+            if (args.DatabaseError != null)
+            {
+                Debug.LogError(args.DatabaseError.Message);
+                return;
+            }
 
-        competitorReady = (bool)args.Snapshot.GetValue(false);
+            competitorReady = (bool)args.Snapshot.GetValue(false);
+        }
     }
 
-    public void OnFind()
+    private void FindCompetitor(DataSnapshot snapshotData)
     {
-        HideLayout();
-        tournamentMessage.GetComponent<Text>().text = "Downloading level...";
+        foreach (DataSnapshot dataSnapshot in snapshotData.Children)
+        {
+            if (!dataSnapshot.Key.Equals(user.GetLoggedUser().UserId))
+            {
+                lvlAddress = dataSnapshot.Key;
+                break;
+            }
+        }
         FirebaseDatabase.DefaultInstance
             .GetReference("Tournaments")
             .Child(lvlAddress)
             .GetValueAsync().ContinueWith(task => {
-              if (task.IsFaulted)
-              {
+                if (task.IsFaulted)
+                {
                     Debug.Log("Error heh");
-              }
-              else if (task.IsCompleted)
-              {
+                }
+                else if (task.IsCompleted)
+                {
                     Debug.Log("Jest dobrze");
                     DataSnapshot snapshot = task.Result;
                     wrapper = JsonUtility.FromJson<TournamentDataWrapper>(snapshot.GetRawJsonValue());
                     competitor = wrapper.creator.name;
                     JoinMatch();
-               }
+                }
             });
+    }
+
+    public void OnFind()
+    {
+        playerRole = "guest";
+        HideLayout();
+        tournamentMessage.GetComponent<Text>().text = "Downloading level...";
+        FirebaseDatabase.DefaultInstance.GetReference("Tournaments")
+            .GetValueAsync().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    Debug.Log("Error heh");
+                }
+                else if (task.IsCompleted)
+                {
+                    Debug.Log("Tournaments successed");
+                    DataSnapshot snapshot = task.Result;
+                    FindCompetitor(snapshot);
+                }
+            });
+    }
+
+    public void DeleteMatch()
+    {
+        reference.Child("Tournaments")
+            .Child(lvlAddress)
+            .RemoveValueAsync();
+    }
+
+    private void RemoveConnections(string player)
+    {
+        reference.Child("Tournaments")
+            .Child(lvlAddress)
+            .Child(player)
+            .Child("ready").ValueChanged -= HandleCompetitorReady;
+
+        reference.Child("Tournaments")
+            .Child(lvlAddress)
+            .Child(player)
+            .Child("obstaclesTravelled").ValueChanged -= HandleCompetitorTravelledObstacle;
+
+        reference.Child("Tournaments")
+            .Child(lvlAddress)
+            .Child(player)
+            .Child("finished").ValueChanged -= HandleCompetitorFinished;
+
+        if(playerRole.Equals("creator"))
+        {
+            Debug.Log("Tu tez jestem");
+            reference.Child("Tournaments")
+            .Child(user.GetLoggedUser().UserId)
+            .Child("guest")
+            .Child("name").ValueChanged -= HandleGuestJoined;
+        }
+        handleListeners = false;
+        Debug.Log("Removed from lvlAddres: " + lvlAddress + ", player: " + player);
     }
 
     private void JoinMatch()
@@ -233,6 +344,11 @@ public class FirebaseConnector : MonoBehaviour
             .Child(lvlAddress)
             .Child("creator")
             .Child("obstaclesTravelled").ValueChanged += HandleCompetitorTravelledObstacle;
+
+        reference.Child("Tournaments")
+            .Child(lvlAddress)
+            .Child("creator")
+            .Child("finished").ValueChanged += HandleCompetitorFinished;
     }
 
     public void OnReadyClick()

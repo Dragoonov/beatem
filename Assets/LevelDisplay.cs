@@ -209,13 +209,16 @@ public class LevelDisplay : MonoBehaviour
         finished = true;
     }
 
-    public void ShowFinishPanel()
+    public void ShowFinishPanel(string customText = null)
     {
         UserManager user = GameObject.Find("User").GetComponent<UserManager>();
         UserInterface userInterface = GameObject.Find("Level").GetComponent<UserInterface>();
         camera.transform.Rotate(0, 0, 0);
         finishPanel.SetActive(true);
-        GameObject.Find("FinishScore").GetComponent<Text>().text = "Score: " + Math.Round(userInterface.score,2);
+        if (customText == null)
+            GameObject.Find("FinishScore").GetComponent<Text>().text = "Score: " + Math.Round(userInterface.score, 2);
+        else
+            GameObject.Find("FinishScore").GetComponent<Text>().text = customText;
         user.UpdateScore("lvl" + lvlNumber + "Score", userInterface.score, lvlNumber);
         GameObject.Find("speedLevelAudioSource").GetComponent<AudioSource>().Stop();
         if (lvlNumber < 10)

@@ -50,7 +50,15 @@ public class onCollision : MonoBehaviour
             levelDisplay.Finish();
             level.GetComponent<LevelSpeed>().Finish();
             level.GetComponent<UserInterface>().Finish();
-            levelDisplay.ShowFinishPanel();
+            if (connector != null)
+            {
+                levelDisplay.ShowFinishPanel("You won!");
+                connector.OnFinish();
+            }
+            else
+            {
+                levelDisplay.ShowFinishPanel();
+            }
         }
     }
 
