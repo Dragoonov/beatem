@@ -23,4 +23,34 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tournament.unity
     guid: 3d33e068e065749a09cdc0a62e1cd6d8
+  - enabled: 1
+    path: Assets/Scenes/Level_1.unity
+    guid: c608b7ba70e744b93b6b425a49e2af14
+  - enabled: 1
+    path: Assets/Scenes/Level_2.unity
+    guid: 6da75f5e3c0ed4c64872ee31b0fd5c59
+  - enabled: 1
+    path: Assets/Scenes/Level_3.unity
+    guid: de9ec3b6684734b6fb56abc2b1493a42
+  - enabled: 1
+    path: Assets/Scenes/Level_4.unity
+    guid: 2396df33e00c149438811015580bae37
+  - enabled: 1
+    path: Assets/Scenes/Level_5.unity
+    guid: 56c77c2ad050f4e92ace4c90dbf3e396
+  - enabled: 1
+    path: Assets/Scenes/Level_6.unity
+    guid: 67c10b5e9276540238dd56ae85d635a9
+  - enabled: 1
+    path: Assets/Scenes/Level_7.unity
+    guid: 4d08b0f918e3f4fbfac06db79fb58732
+  - enabled: 1
+    path: Assets/Scenes/Level_8.unity
+    guid: 136ecc6119c884a0fa679f5c70362297
+  - enabled: 1
+    path: Assets/Scenes/Level_9.unity
+    guid: c93b7aef1a9d94972b06c376ce523929
+  - enabled: 1
+    path: Assets/Scenes/Level_10.unity
+    guid: 104194db52d664848af89322d30ece3d
   m_configObjects: {}

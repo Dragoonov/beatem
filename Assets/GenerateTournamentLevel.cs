@@ -21,7 +21,7 @@ public class GenerateTournamentLevel : MonoBehaviour
     void Start()
     {
         startLevel = false;
-        initialScale = 15f;
+        initialScale = 17f;
         levelSpeed = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>();
         levelDisplay = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelDisplay>();
         levelObject = levelDisplay.gameObject;

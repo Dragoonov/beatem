@@ -223,7 +223,8 @@ public class LevelDisplay : MonoBehaviour
         GameObject.Find("speedLevelAudioSource").GetComponent<AudioSource>().Stop();
         if (lvlNumber < 10)
         {
-            user.UpdateUnlocked("lvl" + (lvlNumber + 1) + "Unlocked", 1, lvlNumber);
+            user.UpdateUnlocked("lvl" + (lvlNumber + 1) + "Unlocked", 1, lvlNumber+1);
+            user.UnlockLvl(lvlNumber + 1);
         }
     }
 
