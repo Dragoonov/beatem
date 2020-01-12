@@ -59,7 +59,9 @@ public class LevelDisplay : MonoBehaviour
     private void InitializeLevel()
     {
         finishPanel = GameObject.Find("FinishPanel");
-        finishPanel.SetActive(false);
+        if(finishPanel != null)
+            finishPanel.SetActive(false);
+        Debug.Log("Finish panel set to false!");
         defaultState = true;
         defaultEnemiesColor = Color.black;
         defaultPlayerColor = Color.black;
@@ -215,6 +217,7 @@ public class LevelDisplay : MonoBehaviour
         UserInterface userInterface = GameObject.Find("Level").GetComponent<UserInterface>();
         camera.transform.Rotate(0, 0, 0);
         finishPanel.SetActive(true);
+        Debug.Log("Finish panel set to true!");
         if (customText == null)
             GameObject.Find("FinishScore").GetComponent<Text>().text = "Score: " + Math.Round(userInterface.score, 2);
         else

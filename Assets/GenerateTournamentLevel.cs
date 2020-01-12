@@ -15,28 +15,46 @@ public class GenerateTournamentLevel : MonoBehaviour
     public int objectsNumber;
     private int currentEnemy;
     public bool startLevel;
+    bool enabledCanvas = false;
 
     private float[] initialAngles;
 
+    bool initialized = false;
+
     void Start()
     {
-        startLevel = false;
-        initialScale = 17f;
-        levelSpeed = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>();
-        levelDisplay = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelDisplay>();
-        levelObject = levelDisplay.gameObject;
-        levelObjects = new List<GameObject>();
-        initialAngles = new float[] { 45, -45, 90, -90, 135, -135, 180, -180 };
-        currentEnemy = 0;
-        //Debug.Log(levelObjects);
-        levelObject.SetActive(false);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(startLevel)
+        if(!initialized)
         {
+            startLevel = false;
+            initialScale = 17f;
+            levelSpeed = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelSpeed>();
+            levelDisplay = GameObject.FindGameObjectWithTag("Level").GetComponent<LevelDisplay>();
+            levelObject = levelDisplay.gameObject;
+            levelObjects = new List<GameObject>();
+            initialAngles = new float[] { 45, -45, 90, -90, 135, -135, 180, -180 };
+            currentEnemy = 0;
+            //Debug.Log(levelObjects);
+            levelObject.SetActive(false);
+            GameObject finishPanel = GameObject.Find("FinishPanel");
+            if (finishPanel != null)
+                finishPanel.SetActive(false);
+            //GameObject.Find("StartingPanel").transform.SetAsLastSibling();
+            Debug.Log("Generate set false!");
+            initialized = true;
+            GameObject.Find("CanvasLevelUI").GetComponent<Canvas>().enabled = false;
+        }
+        if (startLevel)
+        {
+            if(!enabledCanvas)
+            {
+            enabledCanvas = GameObject.Find("CanvasLevelUI").GetComponent<Canvas>().enabled = true;
+            }
             ReleaseEnemies();
         }
     }
@@ -74,17 +92,21 @@ public class GenerateTournamentLevel : MonoBehaviour
 
     private void ReleaseEnemies()
     {
+        Debug.Log(currentEnemy + " released");
         if(currentEnemy >= objectsNumber)
         {
+            Debug.Log("powrot");
             return;
         }
         if(currentEnemy == 0)
         {
+           // GameObject.Find("LevelUI").SetActive(true);
             levelObjects[currentEnemy].SetActive(true);
             currentEnemy++;
         }
         else
         {
+            Debug.Log("powrot");
             GameObject previousObject = levelObjects[currentEnemy - 1];
             if(previousObject != null && previousObject.tag == "GroupEnemy")
             {

@@ -29,30 +29,36 @@ public class FirebaseConnector : MonoBehaviour
     string playerRole;
     Text obstaclesTravelled;
     int enemyObstaclesTravelledAmount;
+    bool initialized = false;
 
     bool handleListeners = true;
     void Start()
     {
-        obstaclesTravelled = GameObject.Find("TravelledObstacles").GetComponent<Text>();
-        enemyObstaclesTravelledAmount = 0;
-        readyPanel = GameObject.Find("ReadyPanel");
-        readyPanel.SetActive(false);
-        user = GameObject.Find("User").GetComponent<UserManager>();
-        ready = false;
-        competitorReady = false;
-        checkFirebaseVersion();
-        level = GameObject.Find("LevelGenerator").GetComponent<GenerateTournamentLevel>();
-        startingPanel = GameObject.Find("StartingPanel");
-        tournamentMessage = GameObject.Find("TournamentMessage");
-        generateButton = GameObject.Find("GenerateButton");
-        findButton = GameObject.Find("FindButton");
-        backButton = GameObject.Find("BackButton");
-        tournamentMessage.SetActive(false);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!initialized)
+        {
+            obstaclesTravelled = GameObject.Find("TravelledObstacles").GetComponent<Text>();
+            enemyObstaclesTravelledAmount = 0;
+            readyPanel = GameObject.Find("ReadyPanel");
+            readyPanel.SetActive(false);
+            user = GameObject.Find("User").GetComponent<UserManager>();
+            ready = false;
+            competitorReady = false;
+            checkFirebaseVersion();
+            level = GameObject.Find("LevelGenerator").GetComponent<GenerateTournamentLevel>();
+            startingPanel = GameObject.Find("StartingPanel");
+            tournamentMessage = GameObject.Find("TournamentMessage");
+            generateButton = GameObject.Find("GenerateButton");
+            findButton = GameObject.Find("FindButton");
+            backButton = GameObject.Find("BackButton");
+            tournamentMessage.SetActive(false);
+            initialized = true;
+        }
         if (showReadyPanel)
         {
             readyPanel.SetActive(true);
@@ -192,6 +198,7 @@ public class FirebaseConnector : MonoBehaviour
                 levelDisplay.Finish();
                 levelTemp.GetComponent<LevelSpeed>().Finish();
                 levelTemp.GetComponent<UserInterface>().Finish();
+                GameObject.Find("LevelUI").SetActive(false);
                 levelDisplay.ShowFinishPanel("You lost!");
                 RemoveConnections(playerRole.Equals("creator") ? "guest" : "creator");
                 //reference.Child("Tournaments")

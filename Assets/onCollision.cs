@@ -36,6 +36,11 @@ public class onCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (level == null)
+        {
+            level = GameObject.FindGameObjectWithTag("Level");
+            Debug.Log("Helper assign level");
+        }
         if (other.gameObject.tag == "Enemy")
         {
             level.GetComponent<LevelDisplay>().FireHitDisplay();
@@ -52,6 +57,7 @@ public class onCollision : MonoBehaviour
             level.GetComponent<UserInterface>().Finish();
             if (connector != null)
             {
+                GameObject.Find("LevelUI").SetActive(false);
                 levelDisplay.ShowFinishPanel("You won!");
                 connector.OnFinish();
             }
