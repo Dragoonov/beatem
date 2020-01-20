@@ -17,6 +17,10 @@ public class UserInterface : MonoBehaviour
 
     public bool finished;
 
+    private float slowTempoSum;
+    private float mediumTempoSum;
+    private float fastTempoSum;
+
     void Start()
     {
         InitializeLevel();
@@ -27,7 +31,24 @@ public class UserInterface : MonoBehaviour
     {
         if(!finished)
         {
-        CalculateUI();
+            CalculateUI();
+            AddTimeToSums();
+        }
+    }
+
+    private void AddTimeToSums()
+    {
+        if (levelSpeed.levelSpeed < 0.08f)
+        {
+            slowTempoSum += Time.deltaTime;
+        }
+        else if (levelSpeed.levelSpeed >= 0.08f && levelSpeed.levelSpeed < 0.15f)
+        {
+            mediumTempoSum += Time.deltaTime;
+        }
+        else if (levelSpeed.levelSpeed >= 0.15f)
+        {
+            fastTempoSum += Time.deltaTime;
         }
     }
 
@@ -49,8 +70,14 @@ public class UserInterface : MonoBehaviour
         lifesUI.text = "Lifes: " + playerCollision.playerLifes;
     }
 
+
     public void Finish()
     {
         finished = true;
+        if(GetComponent<LevelDisplay>().lvlNumber != 11)
+        {
+            score = 100 - score;
+        }
+        score += slowTempoSum * 0.1f + mediumTempoSum * 1 + fastTempoSum * 5;
     }
 }

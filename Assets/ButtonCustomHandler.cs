@@ -190,5 +190,9 @@ public class ButtonCustomHandler : MonoBehaviour
 		Application.Quit();
 	}
 
+    private void OnDestroy()
+    {
+        auth.StateChanged -= AuthStateChanged;
+    }
 
 }

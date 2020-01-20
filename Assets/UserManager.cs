@@ -111,7 +111,7 @@ public class UserManager : MonoBehaviour
         Debug.Log(value);
         if(levelNumber <= 10) //IF CLASSIC LEVELS
         {
-            if(lvlsScore[levelNumber] > value || lvlsScore[levelNumber] < 0.5)
+            if(lvlsScore[levelNumber] < value)
             {
                 PlayerPrefs.SetFloat(key, value);
                 lvlsScore[levelNumber] = value;

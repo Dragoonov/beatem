@@ -25,7 +25,7 @@ public class FirebaseConnector : MonoBehaviour
     bool competitorReady;
     string competitor;
     bool showReadyPanel;
-    string lvlAddress = "PGlvVo316taJC96GF8lJuUkDHtG2";
+    string lvlAddress;
     string playerRole;
     Text obstaclesTravelled;
     int enemyObstaclesTravelledAmount;
@@ -57,6 +57,7 @@ public class FirebaseConnector : MonoBehaviour
             findButton = GameObject.Find("FindButton");
             backButton = GameObject.Find("BackButton");
             tournamentMessage.SetActive(false);
+            lvlAddress = user.GetLoggedUser().UserId;
             initialized = true;
         }
         if (showReadyPanel)

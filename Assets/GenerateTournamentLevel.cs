@@ -53,7 +53,7 @@ public class GenerateTournamentLevel : MonoBehaviour
         {
             if(!enabledCanvas)
             {
-            enabledCanvas = GameObject.Find("CanvasLevelUI").GetComponent<Canvas>().enabled = true;
+                enabledCanvas = GameObject.Find("CanvasLevelUI").GetComponent<Canvas>().enabled = true;
             }
             ReleaseEnemies();
         }

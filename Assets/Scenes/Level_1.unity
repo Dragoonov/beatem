@@ -766,11 +766,6 @@ PrefabInstance:
       propertyPath: speedSource
       value: 
       objectReference: {fileID: 1711720044}
-    - target: {fileID: 8430474751157638183, guid: 05026aaee00c14b45af2548278d6e443,
-        type: 3}
-      propertyPath: lvlNumber
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8430474751157638234, guid: 05026aaee00c14b45af2548278d6e443,
         type: 3}
       propertyPath: m_Enabled
@@ -780,6 +775,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8430474751157638183, guid: 05026aaee00c14b45af2548278d6e443,
+        type: 3}
+      propertyPath: lvlNumber
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05026aaee00c14b45af2548278d6e443, type: 3}
@@ -875,6 +875,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 2254091976599578319, guid: 4540817d285d3b843bb82af1847bd015,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2254091976599578163, guid: 4540817d285d3b843bb82af1847bd015,
         type: 3}
