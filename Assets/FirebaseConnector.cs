@@ -19,6 +19,7 @@ public class FirebaseConnector : MonoBehaviour
     GameObject generateButton;
     GameObject findButton;
     GameObject backButton;
+    Text myRingsTravelled;
     TournamentDataWrapper wrapper;
     UserManager user;
     bool ready;
@@ -56,6 +57,7 @@ public class FirebaseConnector : MonoBehaviour
             generateButton = GameObject.Find("GenerateButton");
             findButton = GameObject.Find("FindButton");
             backButton = GameObject.Find("BackButton");
+            myRingsTravelled = GameObject.Find("TravelledObstaclesMy").GetComponent<Text>();
             tournamentMessage.SetActive(false);
             lvlAddress = user.GetLoggedUser().UserId;
             initialized = true;
@@ -91,6 +93,7 @@ public class FirebaseConnector : MonoBehaviour
     public void OnTravelObstacle()
     {
         enemyObstaclesTravelledAmount++;
+        myRingsTravelled.text = "Your rings: " + enemyObstaclesTravelledAmount;
         Dictionary<string, object> obstacleUpdate = new Dictionary<string, object>();
         obstacleUpdate["/Tournaments/" + lvlAddress + "/" + playerRole + "/obstaclesTravelled"] = enemyObstaclesTravelledAmount;
         reference.UpdateChildrenAsync(obstacleUpdate);
@@ -111,7 +114,6 @@ public class FirebaseConnector : MonoBehaviour
             if (dependencyStatus == DependencyStatus.Available)
             {
                 reference = FirebaseDatabase.DefaultInstance.RootReference;
-                Debug.Log("Wszystko git");
                 FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://beatem-d1472.firebaseio.com/");
             }
             else
@@ -266,11 +268,10 @@ public class FirebaseConnector : MonoBehaviour
             .GetValueAsync().ContinueWith(task => {
                 if (task.IsFaulted)
                 {
-                    Debug.Log("Error heh");
+
                 }
                 else if (task.IsCompleted)
                 {
-                    Debug.Log("Jest dobrze");
                     DataSnapshot snapshot = task.Result;
                     wrapper = JsonUtility.FromJson<TournamentDataWrapper>(snapshot.GetRawJsonValue());
                     competitor = wrapper.creator.name;
@@ -289,7 +290,7 @@ public class FirebaseConnector : MonoBehaviour
             {
                 if (task.IsFaulted)
                 {
-                    Debug.Log("Error heh");
+
                 }
                 else if (task.IsCompleted)
                 {
@@ -326,7 +327,6 @@ public class FirebaseConnector : MonoBehaviour
 
         if(playerRole.Equals("creator"))
         {
-            Debug.Log("Tu tez jestem");
             reference.Child("Tournaments")
             .Child(user.GetLoggedUser().UserId)
             .Child("guest")

@@ -39,7 +39,6 @@ public class onCollision : MonoBehaviour
         if (level == null)
         {
             level = GameObject.FindGameObjectWithTag("Level");
-            Debug.Log("Helper assign level");
         }
         if (other.gameObject.tag == "Enemy")
         {

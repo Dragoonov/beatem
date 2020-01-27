@@ -271,6 +271,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -11.474976
       objectReference: {fileID: 0}
+    - target: {fileID: 8193207991120706960, guid: 2be21d118d0b41648aeb52c4b0d6a93e,
+        type: 3}
+      propertyPath: m_Text
+      value: Lives
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2be21d118d0b41648aeb52c4b0d6a93e, type: 3}
 --- !u!1001 &437359875
@@ -565,15 +570,15 @@ PrefabInstance:
       propertyPath: speedSource
       value: 
       objectReference: {fileID: 850442070}
-    - target: {fileID: 8430474751157638183, guid: 05026aaee00c14b45af2548278d6e443,
-        type: 3}
-      propertyPath: lvlNumber
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 8430474751157638234, guid: 05026aaee00c14b45af2548278d6e443,
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8430474751157638183, guid: 05026aaee00c14b45af2548278d6e443,
+        type: 3}
+      propertyPath: lvlNumber
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05026aaee00c14b45af2548278d6e443, type: 3}

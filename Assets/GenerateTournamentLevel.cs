@@ -45,7 +45,6 @@ public class GenerateTournamentLevel : MonoBehaviour
             if (finishPanel != null)
                 finishPanel.SetActive(false);
             //GameObject.Find("StartingPanel").transform.SetAsLastSibling();
-            Debug.Log("Generate set false!");
             initialized = true;
             GameObject.Find("CanvasLevelUI").GetComponent<Canvas>().enabled = false;
         }
@@ -95,7 +94,6 @@ public class GenerateTournamentLevel : MonoBehaviour
         Debug.Log(currentEnemy + " released");
         if(currentEnemy >= objectsNumber)
         {
-            Debug.Log("powrot");
             return;
         }
         if(currentEnemy == 0)
@@ -106,7 +104,6 @@ public class GenerateTournamentLevel : MonoBehaviour
         }
         else
         {
-            Debug.Log("powrot");
             GameObject previousObject = levelObjects[currentEnemy - 1];
             if(previousObject != null && previousObject.tag == "GroupEnemy")
             {

@@ -67,7 +67,7 @@ public class UserInterface : MonoBehaviour
         score += Time.deltaTime;
         tempoUI.text = "Tempo: " + levelSpeed.levelSpeed.ToString();
         scoreUI.text = "Time: " + score.ToString("F2");
-        lifesUI.text = "Lifes: " + playerCollision.playerLifes;
+        lifesUI.text = "Lives: " + playerCollision.playerLifes;
     }
 
 

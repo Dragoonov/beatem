@@ -108,7 +108,6 @@ public class UserManager : MonoBehaviour
     public void UpdateScore(string key, float value, int levelNumber)
     {
         value = (float)Math.Round(value, 2);
-        Debug.Log(value);
         if(levelNumber <= 10) //IF CLASSIC LEVELS
         {
             if(lvlsScore[levelNumber] < value)
